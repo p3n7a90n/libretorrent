@@ -24,11 +24,25 @@ public class DefaultFeedParser implements FeedParser {
             // Create SAX parser.
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            
+
+            //Disable external dtd and entities
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setXIncludeAware(false);
+            factory.setExpandEntityReferences(false);
+
+
+
             // Turn on namespace support.
             XMLReader reader = parser.getXMLReader();
             reader.setFeature("http://xml.org/sax/features/namespaces", true);
             reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
+
+            // Disable genearal and paramter entities
+            reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             
         	// Create SAX handler.
         	FeedHandler handler = new FeedHandler();
